@@ -1,4 +1,4 @@
-# GO Wrapper for prefix.cc
+# Go Wrapper for prefix.cc
 
 This Go package is intended to provide functions for fetching the commonly used namespace of a given prefix name 
 and for finding the commonly used prefix name of a given namespace or IRI respectively. 
