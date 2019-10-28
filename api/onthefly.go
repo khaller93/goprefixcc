@@ -1,7 +1,7 @@
 package api
 
 import (
-	"goprefixcc/utils"
+	"github.com/hallerkevin/goprefixcc/utils"
 	"io/ioutil"
 	"net/http"
 	"net/url"

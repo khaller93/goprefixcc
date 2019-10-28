@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"goprefixcc/api"
+	"github.com/hallerkevin/goprefixcc/api"
 	"os"
 )
 
