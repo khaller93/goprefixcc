@@ -31,12 +31,12 @@ func (o onTheFly) GetNamespace(prefix string) ([]string, error) {
 				data, err := ioutil.ReadAll(resp.Body)
 				defer resp.Body.Close()
 				if err == nil {
-					var lines []string = strings.Split(string(data[:]), "\n")
-					namespaces := make([]string, len(lines))
+					var lines = strings.Split(string(data[:]), "\n")
+					namespaces := make([]string, 0)
 					for i := 0; i < len(lines); i++ {
 						psplit := strings.Split(lines[i], "\t")
-						if len(psplit) == 2 {
-							namespaces[i] = psplit[1]
+						if len(psplit) == 2 && len(psplit[1]) > 0 {
+							namespaces = append(namespaces, psplit[1])
 						}
 					}
 					return namespaces, nil
@@ -57,12 +57,12 @@ func (o onTheFly) GetPrefixName(iri string) ([]string, error) {
 				data, err := ioutil.ReadAll(resp.Body)
 				defer resp.Body.Close()
 				if err == nil {
-					var lines []string = strings.Split(string(data[:]), "\n")
-					prefixList := make([]string, len(lines))
+					var lines = strings.Split(string(data[:]), "\n")
+					prefixList := make([]string, 0)
 					for i := 0; i < len(lines); i++ {
 						psplit := strings.Split(lines[i], "\t")
-						if len(psplit) == 2 {
-							prefixList[i] = psplit[0]
+						if len(psplit) == 2 && len(psplit[0]) > 0 {
+							prefixList = append(prefixList, psplit[0])
 						}
 					}
 					return prefixList, nil
