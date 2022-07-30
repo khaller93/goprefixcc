@@ -10,12 +10,14 @@ import (
 const VERSION string = "1.1.0"
 
 func printUsage(errorMessage string) {
-	fmt.Printf("error: %s.\n\n", errorMessage)
+	if errorMessage != "" {
+		fmt.Printf("error: %s.\n\n", errorMessage)
+	}
 	appName := "goprefixcc"
 	if len(os.Args) > 1 {
 		appName = os.Args[0]
 	}
-	fmt.Printf("Usage: %s (string [-reverse]) | -version\n", appName)
+	fmt.Printf("Usage: %s ([-reverse] string) | -version\n", appName)
 	flag.PrintDefaults()
 }
 
@@ -26,7 +28,7 @@ func main() {
 
 	if *version {
 		fmt.Printf("goprefixcc v%v\n", VERSION)
-		return
+		os.Exit(0)
 	}
 
 	var args = flag.Args()
