@@ -1,49 +1,73 @@
 package main
 
 import (
-    "flag"
-    "fmt"
-    "github.com/hallerkevin/goprefixcc/api"
-    "os"
+	"flag"
+	"fmt"
+	"github.com/khaller93/goprefixcc/api"
+	"os"
 )
 
-const VERSION string = "1.0.1"
+const VERSION string = "1.1.0"
+
+func printUsage(errorMessage string) {
+	fmt.Printf("error: %s.\n\n", errorMessage)
+	appName := "goprefixcc"
+	if len(os.Args) > 1 {
+		appName = os.Args[0]
+	}
+	fmt.Printf("Usage: %s string [-reverse]\n", appName)
+	flag.PrintDefaults()
+}
 
 func main() {
-    version := flag.Bool("version", false, "prints version of this app")
-    reverse := flag.Bool("reverse", false, "performs a reverse lookup")
-    flag.Parse()
+	version := flag.Bool("version", false, "prints version of this app")
+	reverse := flag.Bool("reverse", false, "performs a reverse lookup")
+	flag.Parse()
 
-    if *version {
-        fmt.Printf("(2019) goprefixcc version %v\n", VERSION)
-        return
-    }
+	if *version {
+		fmt.Printf("goprefixcc v%v\n", VERSION)
+		return
+	}
 
-    var args []string = flag.Args()
-    if len(args) == 1 {
-        var prefixCCapi api.PrefixCC = api.GetOnTheFlyPrefixCC()
-        // do forward or reverse lookup
-        if *reverse {
-            prefixList, err := prefixCCapi.GetPrefixName(args[0])
-            if err == nil {
-                for i := 0; i < len(prefixList); i++ {
-                    println(prefixList[i])
-                }
-            } else {
-                _, _ = fmt.Fprintln(os.Stderr, err.Error())
-            }
-        } else {
-            namespaceList, err := prefixCCapi.GetNamespace(args[0])
-            if err == nil {
-                for i := 0; i < len(namespaceList); i++ {
-                    println(namespaceList[i])
-                }
-            } else {
-                _, _ = fmt.Fprintln(os.Stderr, err.Error())
-            }
-        }
-    } else {
-        _, _ = fmt.Fprintln(os.Stderr, "Exactly one string argument has to be passed to the application.")
-        flag.PrintDefaults()
-    }
+	var args = flag.Args()
+	if len(args) == 1 {
+		var prefixCCAPI = api.GetOnTheFlyPrefixCC()
+		// do forward or reverse lookup
+		if *reverse {
+			prefixListOpt, err := prefixCCAPI.GetPrefixName(args[0])
+			if err == nil {
+				if prefixListOpt.Found() {
+					prefixList := prefixListOpt.Value()
+					for i := 0; i < len(prefixList); i++ {
+						fmt.Println(prefixList[i])
+					}
+				} else {
+					fmt.Printf("no prefix could be found for '%s'\n", args[0])
+					os.Exit(1)
+				}
+			} else {
+				_, _ = fmt.Fprintln(os.Stderr, err.Error())
+				os.Exit(1)
+			}
+		} else {
+			namespaceListOpt, err := prefixCCAPI.GetNamespace(args[0])
+			if err == nil {
+				if namespaceListOpt.Found() {
+					namespaceList := namespaceListOpt.Value()
+					for i := 0; i < len(namespaceList); i++ {
+						fmt.Println(namespaceList[i])
+					}
+				} else {
+					fmt.Printf("no namespaces could be found for '%s'\n", args[0])
+					os.Exit(1)
+				}
+			} else {
+				_, _ = fmt.Fprintln(os.Stderr, err.Error())
+				os.Exit(1)
+			}
+		}
+	} else {
+		printUsage("exactly one string argument has to be passed to the application")
+		os.Exit(1)
+	}
 }

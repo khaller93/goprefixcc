@@ -1,3 +1,3 @@
-module github.com/hallerkevin/goprefixcc
+module github.com/khaller93/goprefixcc
 
-go 1.13
+go 1.18
