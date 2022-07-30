@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-const PrefixCCAPIURL string = "https://prefix.cc/"
+const PrefixCCAPIURL string = "https://prefix.at/"
 
 // onTheFly fetches namespaces and prefix from the online service.
 type onTheFly struct {
@@ -20,13 +20,13 @@ type onTheFly struct {
 // GetOnTheFlyPrefixCC gets a PrefixCC instance that fetches namespaces and
 // prefix from the online service.
 func GetOnTheFlyPrefixCC() PrefixCC {
-	return onTheFly{
+	return &onTheFly{
 		url:     PrefixCCAPIURL,
-		timeout: 20 * time.Second,
+		timeout: 10 * time.Second,
 	}
 }
 
-func (o onTheFly) GetNamespace(prefix string) (*OptionalV, error) {
+func (o *onTheFly) GetNamespace(prefix string) (*OptionalV, error) {
 	req, err := http.NewRequest("GET", o.url+prefix+".file.txt", nil)
 	if err == nil && req != nil {
 		hc := http.Client{}
@@ -56,7 +56,7 @@ func (o onTheFly) GetNamespace(prefix string) (*OptionalV, error) {
 	return nil, err
 }
 
-func (o onTheFly) GetPrefixName(iri string) (*OptionalV, error) {
+func (o *onTheFly) GetPrefixName(iri string) (*OptionalV, error) {
 	namespace, err := utils.ExtractNamespaceInformation(iri)
 	if err == nil {
 		resp, err := http.Get(o.url + "reverse?format=txt&uri=" + url.QueryEscape(namespace))

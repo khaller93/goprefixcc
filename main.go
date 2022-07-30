@@ -33,7 +33,7 @@ func main() {
 
 	var args = flag.Args()
 	if len(args) == 1 {
-		var prefixCCAPI = api.GetOnTheFlyPrefixCC()
+		var prefixCCAPI = api.GetFailOverPrefixCC()
 		// do forward or reverse lookup
 		if *reverse {
 			prefixListOpt, err := prefixCCAPI.GetPrefixName(args[0])
