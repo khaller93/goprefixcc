@@ -15,7 +15,7 @@ func printUsage(errorMessage string) {
 	if len(os.Args) > 1 {
 		appName = os.Args[0]
 	}
-	fmt.Printf("Usage: %s string [-reverse]\n", appName)
+	fmt.Printf("Usage: %s (string [-reverse]) | -version\n", appName)
 	flag.PrintDefaults()
 }
 

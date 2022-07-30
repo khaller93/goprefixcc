@@ -20,7 +20,7 @@ Both of these commands create a binary named `goprefixcc`.
 # Running
 
 ```
-./goprefixcc [string [-reverse] | -version]
+./goprefixcc (string [-reverse]) | -version
 
 Usage of ./goprefixcc:
   -reverse
