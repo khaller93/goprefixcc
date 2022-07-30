@@ -1,23 +1,19 @@
 # Go Wrapper for prefix.cc
 
-This Go package is intended to provide functions for fetching the commonly used namespace of a given prefix name 
-and for finding the commonly used prefix name of a given namespace or IRI respectively. 
+This Go application and module is intended to provide functions for fetching the namespace of a given prefix
+name and for finding the prefix name of a given namespace or IRI respectively. 
 
-It is a Go wrapper for the API provided by [prefix.cc](prefix.cc).
+It is a Go wrapper for the API provided by [prefix.cc](https://prefix.cc).
 
-# Build
+## Build
 
-```
+```bash
 go build
 ```
-or
-```
-make build
-```
 
-Both of these commands create a binary named `goprefixcc`.
+This command creates a binary named `goprefixcc`.
 
-# Running
+## Running
 
 ```
 ./goprefixcc ([-reverse] string) | -version
@@ -30,15 +26,15 @@ Usage of ./goprefixcc:
 ```
 
 
-## Example
+### Example
 
-```
+```bash
 ./goprefixcc foaf
 ```
 
 The result would be `http://xmlns.com/foaf/0.1/`.
 
-```
+```bash
 ./goprefixcc -reverse "http://purl.org/dc/terms/title"
 ```
 
